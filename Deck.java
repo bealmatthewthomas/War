@@ -35,7 +35,7 @@ public class Deck{
       deck.remove(deck.size()-1);
       return (tempCard);
    }
-   public void War(){
-   
+   public int getDeckSize(){
+      return deck.size();
    }
 }
