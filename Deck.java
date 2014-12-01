@@ -38,4 +38,8 @@ public class Deck{
    public int getDeckSize(){
       return deck.size();
    }
+   public void dumpDeck(){
+      deck=new ArrayList<Card>();
+   }
+  
 }
