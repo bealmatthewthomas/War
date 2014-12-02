@@ -41,5 +41,5 @@ public class Deck{
    public void dumpDeck(){
       deck=new ArrayList<Card>();
    }
-  
+
 }

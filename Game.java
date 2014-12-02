@@ -18,8 +18,23 @@ public class Game{
          //(imagining the back of the list being the top of the deck)
          System.out.println("Input any key to continue!");
          keyboard.nextLine();
-         playerCard=player.takeNextCard();
-         computerCard=computer.takeNextCard();
+         //try to take a card, if that doesnt work go to discard, if that doesnt work that player loses!
+         try{
+            playerCard=player.takeNextCard();
+         }catch(ArrayIndexOutOfBoundsException e){
+            player.cloneCardPile(playerDiscard.getCardPile());
+            player.shuffleDeck();
+            playerDiscard=new CardPile();
+            playerCard=player.takeNextCard();
+         }
+         try{
+            computerCard=computer.takeNextCard();
+         }catch(ArrayIndexOutOfBoundsException e){
+            computer.cloneCardPile(computerDiscard.getCardPile());
+            computer.shuffleDeck();
+            computerDiscard=new CardPile();
+            computerCard=computer.takeNextCard();
+         }
          if (playerCard.getRank()<computerCard.getRank()){
             computerDiscard.addCard(playerCard);
             computerDiscard.addCard(computerCard);
@@ -29,8 +44,6 @@ public class Game{
             playerDiscard.addCard(playerCard);
             System.out.println("Player card "+playerCard.toString()+" is larger than "+computerCard.toString());
          }else if(computerCard.getRank()==playerCard.getRank()){
-            //should probably take this line out before you are done
-            System.out.println("WAR MOTHERFUCKERS");
             CardPile playerWar= new CardPile();
             CardPile computerWar=new CardPile();
             int warCount=1;
@@ -38,8 +51,11 @@ public class Game{
             computerWar.addCard(computerCard);
             war(playerWar,computerWar,warCount);
          }else{System.out.println("ERROR");}
-      }   
+         System.out.println("P: "+player.getDeckSize()+" C: "+ computer.getDeckSize());  
+         System.out.println("PD: "+playerDiscard.getDeckSize()+" C: "+computerDiscard.getDeckSize());
 
+      } 
+      
    }
    public void war(CardPile p, CardPile c,int w){
       //collect all cards in war pile
@@ -47,7 +63,9 @@ public class Game{
       CardPile playerWar=p;
       CardPile computerWar=c;
       int exceptionCount;
-      //check if either player will run out of cards
+      System.out.println("WAR!");
+      //check if either player will run out of cards since they cant happen at the same time if else is fine
+      
       if((player.getDeckSize()+playerDiscard.getDeckSize())<2){
          System.out.println("Player is out of cards and loses!");
          System.exit(0);
@@ -61,9 +79,9 @@ public class Game{
                playerWar.addCard(player.takeNextCard());
                
             }catch(IndexOutOfBoundsException e){
-               player=playerDiscard;
+               player.cloneCardPile(playerDiscard.getCardPile());
                player.shuffleDeck();
-               playerDiscard.dumpDeck(); 
+               playerDiscard=new CardPile();
                playerWar.addCard(player.takeNextCard());           
             }
          }
@@ -72,9 +90,9 @@ public class Game{
                computerWar.addCard(computer.takeNextCard());
                
             }catch(IndexOutOfBoundsException e){
-               computer=computerDiscard;
+               computer.cloneCardPile(computerDiscard.getCardPile());
                computer.shuffleDeck();
-               computerDiscard.dumpDeck(); 
+               computerDiscard=new CardPile();
                computerWar.addCard(computer.takeNextCard());           
             }
          }
@@ -92,13 +110,12 @@ public class Game{
                playerDiscard.addCard(playerWar.takeNextCard());
                playerDiscard.addCard(computerWar.takeNextCard());
             }
-         }else{
+         }else if(((playerWar.getNextCard()).getRank())==((playerWar.getNextCard()).getRank())){
             warCount++;
             war(playerWar,computerWar,warCount);
+            System.out.println("Second war declared! press enter to continue");
+            keyboard.nextLine();
          }
       }
    }  
 }
-
-
-//92 percent at 648
