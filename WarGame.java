@@ -1,6 +1,23 @@
 import java.util.*;
+import java.*;
+import java.awt.EventQueue;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
 public class WarGame{
    public static void main(String[] args){
+      javax.swing.SwingUtilities.invokeLater(new Runnable() {
+      WarInterface war=new WarInterface();
+            public void run() {
+                war.createAndShowGUI();
+            }
+        });
+
       Scanner keyboard= new Scanner(System.in);
       String loopCheck;
       System.out.println("Welcome, would you like to play a game of war?");

@@ -55,6 +55,11 @@ public class Game{
          System.out.println("PD: "+playerDiscard.getDeckSize()+" C: "+computerDiscard.getDeckSize());
 
       } 
+      if((player.getDeckSize()+playerDiscard.getDeckSize())<1){
+         System.out.println("Player is out of cards and loses.");
+      }else if((computer.getDeckSize()+computerDiscard.getDeckSize())<1){
+         System.out.println("Computer is out of cards and loses.");
+      }
       
    }
    public void war(CardPile p, CardPile c,int w){
@@ -68,10 +73,8 @@ public class Game{
       
       if((player.getDeckSize()+playerDiscard.getDeckSize())<2){
          System.out.println("Player is out of cards and loses!");
-         System.exit(0);
       }else if((computer.getDeckSize()+computerDiscard.getDeckSize())<2){
          System.out.println("Computer is out of cards and loses!");
-         System.exit(0);
          //if not add cards from either the main deck or the discard
       }else{
          for(int i=0;i<2;i++){
@@ -104,7 +107,7 @@ public class Game{
                computerDiscard.addCard(playerWar.takeNextCard());
                computerDiscard.addCard(computerWar.takeNextCard());
             }
-         }else if(((playerWar.getNextCard()).getRank())>((playerWar.getNextCard()).getRank())){
+         }else if(((playerWar.getNextCard()).getRank())>((computerWar.getNextCard()).getRank())){
             System.out.println("Player card "+(playerWar.getNextCard().toString())+" is bigger than "+ computerWar.getNextCard().toString());
             for(int i=0;i<warMult;i++){
                playerDiscard.addCard(playerWar.takeNextCard());
