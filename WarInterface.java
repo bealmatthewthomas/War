@@ -62,6 +62,7 @@ public class WarInterface extends JFrame{
            this.getContentPane().add(j9);   
    
  }  
+ //pressing button activates another round, you need to put something in that will display who won, and then can loop back to allow the game to be replayed
    private class ButtonListener implements ActionListener{
    public void actionPerformed(ActionEvent e){
       if(((game.getPlayer().getDeckSize())+game.getPlayerDiscard().getDeckSize())>0&&((game.getComputer().getDeckSize())+(game.getComputerDiscard().getDeckSize())>0)){
@@ -73,7 +74,7 @@ public class WarInterface extends JFrame{
             game.setPlayerDiscard(new CardPile());
             playerCard=(game.getPlayer()).takeNextCard();
           } 
-          j1.setIcon(new ImageIcon(playerCard.getImage()));
+          j1.setIcon(new ImageIcon(playerCard.getImage()));//
 
           try{
             computerCard=(game.getComputer()).takeNextCard();
@@ -84,72 +85,61 @@ public class WarInterface extends JFrame{
             computerCard=(game.getComputer()).takeNextCard();
           } 
           j3.setIcon(new ImageIcon(computerCard.getImage()));
-      }
-         //top player card goes to j1 top compute card goes to j3
-         // 
-    }
- }      
-}
+          if(playerCard.getRank()<computerCard.getRank()){
+            game.getComputerDiscard().addCard(playerCard);
+            game.getComputerDiscard().addCard(computerCard);
+            //change this to output in the jbutton
+            j2 =new JLabel("Computer card "+computerCard.toString()+" is larger than "+playerCard.toString());
 
-/*
-public void playGame(){
-      //play the game while a player still has card
-      while(((computer.getDeckSize()+computerDiscard.getDeckSize())>0)&&((player.getDeckSize()+playerDiscard.getDeckSize())>0)){
-         //take each players cards from the back of the list
-         //(imagining the back of the list being the top of the deck)
-         System.out.println("Input any key to continue!");
-         keyboard.nextLine();
-         //try to take a card, if that doesnt work go to discard, if that doesnt work that player loses!
-         try{
-            playerCard=player.takeNextCard();
-         }catch(ArrayIndexOutOfBoundsException e){
-            player.cloneCardPile(playerDiscard.getCardPile());
-            player.shuffleDeck();
-            playerDiscard=new CardPile();
-            playerCard=player.takeNextCard();
-         }
-         try{
-            computerCard=computer.takeNextCard();
-         }catch(ArrayIndexOutOfBoundsException e){
-            computer.cloneCardPile(computerDiscard.getCardPile());
-            computer.shuffleDeck();
-            computerDiscard=new CardPile();
-            computerCard=computer.takeNextCard();
-         }
-         if (playerCard.getRank()<computerCard.getRank()){
-            computerDiscard.addCard(playerCard);
-            computerDiscard.addCard(computerCard);
-            System.out.println("Computer card "+computerCard.toString()+" is larger than "+playerCard.toString());
-         }else if(computerCard.getRank()<playerCard.getRank()){
-            playerDiscard.addCard(computerCard);
-            playerDiscard.addCard(playerCard);
-            System.out.println("Player card "+playerCard.toString()+" is larger than "+computerCard.toString());
-         }else if(computerCard.getRank()==playerCard.getRank()){
+          }else if(computerCard.getRank()<playerCard.getRank()){
+             game.getPlayerDiscard().addCard(playerCard);
+             game.getPlayerDiscard().addCard(computerCard);
+             j2 =new JLabel("Player card "+computerCard.toString()+" is larger than "+playerCard.toString());
+
+          }else if(computerCard.getRank()==playerCard.getRank()){
             CardPile playerWar= new CardPile();
-            CardPile computerWar=new CardPile();
+            CardPile computerWar = new CardPile();
             int warCount=1;
             playerWar.addCard(playerCard);
             computerWar.addCard(computerCard);
             war(playerWar,computerWar,warCount);
-         }else{System.out.println("ERROR");}
-         System.out.println("P: "+player.getDeckSize()+" C: "+ computer.getDeckSize());  
-         System.out.println("PD: "+playerDiscard.getDeckSize()+" C: "+computerDiscard.getDeckSize());
 
-      } 
-      if((player.getDeckSize()+playerDiscard.getDeckSize())<1){
-         System.out.println("Player is out of cards and loses.");
-      }else if((computer.getDeckSize()+computerDiscard.getDeckSize())<1){
-         System.out.println("Computer is out of cards and loses.");
-      }
-      
-   }
+          }
+        }
+         //top player card goes to j1 top compute card goes to j3
+         // 
+    }
+ }
    public void war(CardPile p, CardPile c,int w){
-      //collect all cards in war pile
+   //collect all cards in war pile
       int warCount=w;
       CardPile playerWar=p;
       CardPile computerWar=c;
       int exceptionCount;
       System.out.println("WAR!");
+      if((game.getPlayer().getDeckSize()+game.getPlayerDiscard().getDeckSize())<2){
+         System.out.println("Player is out of cards and cannot continue the war!");
+      }else if((game.getComputer().getDeckSize()+game.getComputerDiscard().getDeckSize())<2){
+         System.out.println("Computer is out of cards and cannot continue the war!");
+         //if not add cards from either the main deck or the discard
+
+      //check if either player will run out of cards since they cant happen at the same time if else is fine
+      
+       }
+         
+   }
+}
+
+/*
+public void playGame(){
+                           System.out.println("P: "+player.getDeckSize()+" C: "+ computer.getDeckSize());  
+         System.out.println("PD: "+playerDiscard.getDeckSize()+" C: "+computerDiscard.getDeckSize());
+
+           }
+      
+   }
+   public void war(CardPile p, CardPile c,int w){
+     
       //check if either player will run out of cards since they cant happen at the same time if else is fine
       
       if((player.getDeckSize()+playerDiscard.getDeckSize())<2){
