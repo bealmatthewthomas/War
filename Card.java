@@ -16,7 +16,7 @@ public class Card{
    public int getRank(){return rank;}
    public int getSuit(){return suit;}
    public String getImage(){
-      return ("pics/"+frString[rank]+fsString[suit]);
+      return ("pics/"+frString[rank]+fsString[suit]+".jpg");
    }
    public String toString(){
       return (rankString[rank]+" of "+suitString[suit]);
