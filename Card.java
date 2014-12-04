@@ -30,15 +30,23 @@ public class Card{
    *get rank of card
    *@return returns rank
    */
-   public int getRank(){return rank;}]
+   public int getRank(){return rank;}
    /**
    *get suit of card
    *@return returns suit
    */
    public int getSuit(){return suit;}
+   /**
+   *Gets the image
+   *@return returns a string of the image destiation
+   */
    public String getImage(){
       return ("pics/"+frString[rank]+fsString[suit]+".jpg");
    }
+   /**
+   *tostring....
+   *@return returns a easy to read string
+   */
    public String toString(){
       return (rankString[rank]+" of "+suitString[suit]);
    }

@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 
 public class WarInterface extends JFrame{
         private Game game;
+        JOptionPane popUp= new JOptionPane();
         private JLabel j1;
         private JLabel j2;
         private JLabel j3;
@@ -105,11 +106,7 @@ public class WarInterface extends JFrame{
             computerWar.addCard(computerCard);
             war(playerWar,computerWar,warCount);
             JOptionPane popUp= new JOptionPane();
-            if((game.getPlayer().getDeckSize()+game.getPlayerDiscard().getDeckSize())==0){
-               popUp.showMessageDialog(null,"Computer Wins","Pop Up", JOptionPane.INFORMATION_MESSAGE);
-            }else if((game.getComputer().getDeckSize()+game.getComputerDiscard().getDeckSize())==0){
-               popUp.showMessageDialog(null,"Player Wins","Pop Up",JOptionPane.INFORMATION_MESSAGE);
-            }
+           
 
 
           }
@@ -135,8 +132,12 @@ public class WarInterface extends JFrame{
       j2.setText("WAR!");
       if((game.getPlayer().getDeckSize()+game.getPlayerDiscard().getDeckSize())<2){
          j2.setText("Player is out of cards and cannot continue the war!");
+         popUp.showMessageDialog(null,"Computer Wins","Pop Up", JOptionPane.INFORMATION_MESSAGE);
+           
       }else if((game.getComputer().getDeckSize()+game.getComputerDiscard().getDeckSize())<2){
          j2.setText("Computer is out of cards and cannot continue the war!");
+         popUp.showMessageDialog(null,"Computer Wins","Pop Up", JOptionPane.INFORMATION_MESSAGE);
+
          //if not add cards from either the main deck or the discard
       }else{
          for(int i=0;i<2;i++){

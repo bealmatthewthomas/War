@@ -7,6 +7,9 @@ public class Game{
    private CardPile computerDiscard=new CardPile();
    private Card playerCard;
    private Card computerCard;
+   /**
+   *Makes a new game!
+   */
    public Game(){
          Deck bigDeck=new Deck();
          bigDeck.shuffleDeck();
@@ -22,13 +25,45 @@ public class Game{
          }
 
    }
+   /**
+   *returns player deck
+   *@return player deck
+   */
    public CardPile getPlayer(){return player;}
-   public CardPile getComputer(){return computer;}  
+   /**
+   *returns computer deck
+   *@return computer deck
+   */
+   public CardPile getComputer(){return computer;}
+   /**
+   *returns the player discard
+   *@return  returns playerdiscard
+   */
    public CardPile getPlayerDiscard(){return playerDiscard;}
+   /**
+   *returnsteh computer discard
+   *@return returns computer 
+   */
    public CardPile getComputerDiscard(){return computerDiscard;}
+   /**
+   *set player cardpile
+   *@param c cardpile
+   */
    public void setPlayer(CardPile c){player=c;}
+   /**
+   *set computer cardpile
+   *@param c cardpile
+   */
    public void setComputer(CardPile c){computer=c;}  
+   /**
+   *set player discard
+   *@param c cardpile
+   */
    public void setPlayerDiscard(CardPile c){playerDiscard=c;}
+   /**
+   *set computer discard
+   *@param c cardpile
+   */
    public void setComputerDiscard(CardPile c){computerDiscard=c;}
 
 }
