@@ -27,7 +27,7 @@ public class WarInterface extends JFrame{
            
            //get text
            //add player card image
-           j1= new JLabel((""),SwingConstants.CENTER);//+game.getPlayer().getDeckSize()
+           j1= new JLabel("",SwingConstants.CENTER);//+game.getPlayer().getDeckSize()
            //j1.setIcon(new ImageIcon("pics/2h.jpg"));
            this.getContentPane().add(j1);
            
@@ -35,11 +35,11 @@ public class WarInterface extends JFrame{
            j2 = new JLabel("WAR",SwingConstants.CENTER);
            this.getContentPane().add(j2);
            //add compute card
-           j3=new JLabel((""),SwingConstants.CENTER);//+game.getComputer().getDeckSize()
+           j3=new JLabel("",SwingConstants.CENTER);//
            //j3.setIcon(new ImageIcon("pics/5h.jpg"));
            this.getContentPane().add(j3);
            //add cad back
-           j4= new JLabel("" ,SwingConstants.CENTER);
+           j4= new JLabel((""+ (game.getPlayer().getDeckSize()+game.getPlayerDiscard().getDeckSize())),SwingConstants.CENTER);
            j4.setIcon(new ImageIcon("pics/back.jpg"));
            this.getContentPane().add(j4);
            j5= new JButton("Click to action");
@@ -48,18 +48,20 @@ public class WarInterface extends JFrame{
            this.getContentPane().add(j5);
            
 
-           j6= new JLabel("",SwingConstants.CENTER);
+           j6= new JLabel((""+(game.getComputer().getDeckSize()+game.getComputerDiscard().getDeckSize())),SwingConstants.CENTER);
            j6.setIcon(new ImageIcon("pics/back.jpg"));
            this.getContentPane().add(j6);
            
-           j7= new JLabel(("Player "+ game.getPlayerDiscard().getDeckSize()),SwingConstants.CENTER);
+           j7= new JLabel("Player " ,SwingConstants.CENTER);
            this.getContentPane().add(j7);
            
            j8= new JLabel("",SwingConstants.CENTER);
            this.getContentPane().add(j8);
            
-           j9= new JLabel(("Computer "+ game.getComputerDiscard().getDeckSize()),SwingConstants.CENTER);
+           j9= new JLabel(("Computer "),SwingConstants.CENTER);
            this.getContentPane().add(j9);   
+           
+           
    
  }  
  //pressing button activates another round, you need to put something in that will display who won, and then can loop back to allow the game to be replayed
@@ -90,7 +92,6 @@ public class WarInterface extends JFrame{
             game.getComputerDiscard().addCard(computerCard);
             //change this to output in the jbutton
             j2.setText("Computer card "+computerCard.toString()+" is larger than Player Card"+playerCard.toString());
-
           }else if(computerCard.getRank()<playerCard.getRank()){
              game.getPlayerDiscard().addCard(playerCard);
              game.getPlayerDiscard().addCard(computerCard);
@@ -103,9 +104,24 @@ public class WarInterface extends JFrame{
             playerWar.addCard(playerCard);
             computerWar.addCard(computerCard);
             war(playerWar,computerWar,warCount);
+            JOptionPane popUp= new JOptionPane();
+            if((game.getPlayer().getDeckSize()+game.getPlayerDiscard().getDeckSize())==0){
+               popUp.showMessageDialog(null,"Computer Wins","Pop Up", JOptionPane.INFORMATION_MESSAGE);
+            }else if((game.getComputer().getDeckSize()+game.getComputerDiscard().getDeckSize())==0){
+               popUp.showMessageDialog(null,"Player Wins","Pop Up",JOptionPane.INFORMATION_MESSAGE);
+            }
+
 
           }
-        }
+          j4.setText((""+ (game.getPlayer().getDeckSize()+game.getPlayerDiscard().getDeckSize())));
+          j6.setText((""+ (game.getComputer().getDeckSize()+game.getComputerDiscard().getDeckSize())));
+        }else{
+        JOptionPane popUp= new JOptionPane();
+         if(game.getPlayer().getDeckSize()==0){
+            popUp.showMessageDialog(null,"Computer Wins","Pop Up", JOptionPane.INFORMATION_MESSAGE);
+         }else if(game.getComputer().getDeckSize()==0){
+            popUp.showMessageDialog(null,"Player Wins","Pop Up",JOptionPane.INFORMATION_MESSAGE);
+         }
          //top player card goes to j1 top compute card goes to j3
          // 
     }
@@ -147,61 +163,30 @@ public class WarInterface extends JFrame{
          }
          
          int warMult=((warCount*2)+1);
+         j1.setIcon(new ImageIcon(playerWar.getNextCard().getImage()));
+         j3.setIcon(new ImageIcon(computerWar.getNextCard().getImage()));
          if(((computerWar.getNextCard()).getRank())>((playerWar.getNextCard()).getRank())){
-            System.out.println("Computer card "+(computerWar.getNextCard().toString())+" is bigger than "+ playerWar.getNextCard().toString());
+            j2.setText("Computer wins war with the "+(computerWar.getNextCard().toString())+" over the "+ playerWar.getNextCard().toString()+"after: "+warCount+" war(s).");
             for(int i=0;i<warMult;i++){
                game.getComputerDiscard().addCard(playerWar.takeNextCard());
                game.getComputerDiscard().addCard(computerWar.takeNextCard());
+               
             }
          }else if(((playerWar.getNextCard()).getRank())>((computerWar.getNextCard()).getRank())){
-            System.out.println("Player card "+(playerWar.getNextCard().toString())+" is bigger than "+ computerWar.getNextCard().toString());
+  
+            j2.setText("Player wins war with the "+(playerWar.getNextCard().toString())+" over the "+ computerWar.getNextCard().toString()+"after: "+warCount+" war(s).");
             for(int i=0;i<warMult;i++){
                game.getPlayerDiscard().addCard(playerWar.takeNextCard());
                game.getPlayerDiscard().addCard(computerWar.takeNextCard());
             }
          }else if(((playerWar.getNextCard()).getRank())==((playerWar.getNextCard()).getRank())){
             warCount++;
-            System.out.println("Second war declared!");
+            j2.setText("Second war declared!");
             war(playerWar,computerWar,warCount);
             
          }
+         
        }           
    }
 }
-
-/*
-public void playGame(){
-                           System.out.println("P: "+player.getDeckSize()+" C: "+ computer.getDeckSize());  
-         System.out.println("PD: "+playerDiscard.getDeckSize()+" C: "+computerDiscard.getDeckSize());
-
-           }
-      
-   }
-   public void war(CardPile p, CardPile c,int w){
-     
-                  //now compare the latest war card;
-         int warMult=((warCount*2)+1);
-         if(((computerWar.getNextCard()).getRank())>((playerWar.getNextCard()).getRank())){
-            System.out.println("Computer card "+(computerWar.getNextCard().toString())+" is bigger than "+ playerWar.getNextCard().toString());
-            for(int i=0;i<warMult;i++){
-               computerDiscard.addCard(playerWar.takeNextCard());
-               computerDiscard.addCard(computerWar.takeNextCard());
-            }
-         }else if(((playerWar.getNextCard()).getRank())>((computerWar.getNextCard()).getRank())){
-            System.out.println("Player card "+(playerWar.getNextCard().toString())+" is bigger than "+ computerWar.getNextCard().toString());
-            for(int i=0;i<warMult;i++){
-               playerDiscard.addCard(playerWar.takeNextCard());
-               playerDiscard.addCard(computerWar.takeNextCard());
-            }
-         }else if(((playerWar.getNextCard()).getRank())==((playerWar.getNextCard()).getRank())){
-            warCount++;
-            war(playerWar,computerWar,warCount);
-            System.out.println("Second war declared! press enter to continue");
-            keyboard.nextLine();
-         }
-      }
-   }
-   public CardPile getPlayer(){return player;}
-   public CardPile getComputer(){return computer;}  
 }
-*/
